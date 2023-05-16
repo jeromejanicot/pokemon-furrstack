@@ -5,17 +5,19 @@ import { appRouter } from "./router";
 import { createContext } from "./router/context";
 import { fastify } from "fastify";
 
-const createServer = () => {
+export const createServer = () => {
   const server = fastify({});
   void server.register(config);
   const conf = server.config;
+  const prefix = conf && conf.PREFIX !== undefined ? conf.PREFIX : "trpc";
+  const port =
+    conf && conf.API_PORT !== undefined ? parseInt(conf.API_PORT) : 8080;
   void server.register(fastifyPostgres, {
     connectionString: "postgres://postgres@localhost/postgres",
   });
 
   void server.register(fastifyTRPCPlugin, {
-    prefix: conf.PREFIX,
-    useWSS: true,
+    prefix: prefix,
     trpcOptions: { router: appRouter, createContext },
   });
 
@@ -25,8 +27,8 @@ const createServer = () => {
 
   const start = async () => {
     try {
-      await server.listen({ port: parseInt(conf.API_PORT) });
-      console.log("listening on port", conf.API_PORT);
+      await server.listen({ port: port });
+      console.log("app-server: listening on port", port);
     } catch (err) {
       server.log.error(err);
       process.exit(1);
@@ -35,5 +37,3 @@ const createServer = () => {
 
   return { server, start, stop };
 };
-
-export default createServer;

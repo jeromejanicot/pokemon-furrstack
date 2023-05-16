@@ -1,8 +1,8 @@
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
-import { Context } from "./context";
+import { Context, TestContext } from "./context";
 
-const t = initTRPC.context<Context>().create({
+const t = initTRPC.context<Context | TestContext>().create({
   transformer: superjson,
   errorFormatter({ shape }) {
     return shape;

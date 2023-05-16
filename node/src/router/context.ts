@@ -5,10 +5,20 @@ import { db } from "../db/db";
 export interface User {
   name: string | string[];
 }
-export function createContext({ req, res }: CreateFastifyContextOptions) {
+
+export async function createContextInner() {
+  return {
+    db,
+  };
+}
+export async function createContext(opts: CreateFastifyContextOptions) {
   // auth
   // db details
-  return { req, res, db };
+  const { req, res } = opts;
+  const contextInner = await createContextInner();
+
+  return { ...contextInner, req, res };
 }
 
 export type Context = inferAsyncReturnType<typeof createContext>;
+export type TestContext = inferAsyncReturnType<typeof createContextInner>;

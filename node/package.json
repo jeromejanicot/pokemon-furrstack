@@ -2,7 +2,7 @@
   "name": "node",
   "version": "0.0.1",
   "description": "",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "turbo": "turbowatch ./turbowatch.ts",
     "test": "jest"
@@ -10,6 +10,7 @@
   "dependencies": {
     "@fastify/postgres": "^5.2.0",
     "@trpc/server": "^10.25.0",
+    "axios": "^1.4.0",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
     "dotenv": "^16.0.3",
@@ -18,7 +19,6 @@
     "fastify-plugin": "^4.5.0",
     "fastify-zod": "^1.3.2",
     "jsonwebtoken": "^9.0.0",
-    "node-fetch": "^3.3.1",
     "pg": "^8.10.0",
     "superjson": "^1.12.3",
     "winston": "^3.8.2",

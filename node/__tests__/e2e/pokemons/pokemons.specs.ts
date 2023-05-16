@@ -1,12 +1,14 @@
 import { describe, beforeAll, afterAll, it, expect } from "@jest/globals";
 import app from "../../../src/app";
 import { appRouter } from "../../../src/router";
-import { createContext } from "../../../src/router/context";
+import { createContextInner } from "../../../src/router/context";
 
-describe("E2E test for the Pokemoons trpc route", () => {
-  const ctx = createContext();
-  const caller = appRouter.createCaller(Context);
-  beforeAll(() => {});
+describe("E2E test for the Pokemoons trpc route", async () => {
+  const ctx = await createContextInner();
+  const caller = appRouter.createCaller(ctx);
+  beforeAll(() => {
+    app.start();
+  });
   afterAll(() => {
     app.stop();
   });

@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import axios from "axios";
 import debug from "debug";
 import { publicProcedure, router } from "../trpc";
 import { z } from "zod";
@@ -19,14 +19,17 @@ export const pokemonsRouter = router({
   //zod transform input to lowercase
   // how do I get inference of pokemons proper type?
   findOne: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    await findInDatabase(ctx, pokemons, "name", input).then(
-      async (dbEntry: NewPokemonCore) => {
+    await findInDatabase(ctx, pokemons, "name" as keyof object, input).then(
+      async (dbEntry) => {
         if (!dbEntry) {
-          const res = (await fetch(
-            `https://pokeapi.co/api/v2/pokemon/${input}/`,
-          ).then((data) => data.json())) as NewPokemonCore;
+          log("axios fetch");
+          const res = await axios<NewPokemonCore>({
+            method: "get",
+            url: `https://pokeapi.co/api/v2/pokemon/${input}/`,
+          }).then((res) => res.data);
+          log(res);
           if (!res) {
-            log(res);
+            log("no res");
             return "error";
           }
           const newPokemon: NewPokemon = {

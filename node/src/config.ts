@@ -1,8 +1,10 @@
-import "dotenv/config";
+import * as dotenv from "dotenv";
 import fp from "fastify-plugin";
 import { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
 import { debug } from "debug";
+
+dotenv.config();
 
 const log = debug("app:plugins-config");
 
@@ -13,11 +15,11 @@ export const NodeEnv = {
 } as const;
 
 const ConfigSchema = z.object({
-  NODE_ENV: z.nativeEnum(NodeEnv),
-  LOG_LEVEL: z.string(),
-  API_HOST: z.string(),
-  API_PORT: z.string(),
-  PREFIX: z.string(),
+  NODE_ENV: z.nativeEnum(NodeEnv).optional(),
+  LOG_LEVEL: z.string().optional(),
+  API_HOST: z.string().optional(),
+  API_PORT: z.string().optional(),
+  PREFIX: z.string().optional(),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
@@ -25,6 +27,7 @@ export type Config = z.infer<typeof ConfigSchema>;
 const configPlugin: FastifyPluginAsync = async (server) => {
   try {
     ConfigSchema.parse(process.env);
+    log("app-config:server.decorate");
     server.decorate("config", process.env);
   } catch (err) {
     log("environment variables not valid:", err);

@@ -1,19 +1,19 @@
 import { Context } from "../../context";
-import { AnyPageTable } from "drizzle-orm";
-import { eq } from "drizzle-orm";
+import { AnyPgTable } from "drizzle-orm/pg-core";
+import { InferModel, eq } from "drizzle-orm";
 
 // todo: generic type that match the type of the table schema and its insert schema
-export const saveToDatabase = async (
+export const saveToDatabase = async <T extends AnyPgTable<object>>(
   ctx: Context,
-  schema: AnyPageTable<{}>,
-  data: { [x: string]: any },
+  schema: T,
+  data: InferModel<T, "insert">,
 ) => {
   await ctx.db.insert(schema).values(data).returning();
 };
 
-export const findInDatabase = async (
+export const findInDatabase = async <T extends AnyPgTable<object>>(
   ctx: Context,
-  schema: AnyPageTable<{}>,
-  property: keyof typeof schema,
+  schema: T,
+  property: keyof object,
   input: string,
 ) => await ctx.db.select().from(schema).where(eq(schema[property], input));
