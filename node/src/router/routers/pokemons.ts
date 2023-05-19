@@ -21,8 +21,7 @@ export const pokemonsRouter = router({
   // how do I get inference of pokemons proper type?
   findOne: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     const dbEntry = await findInDatabase(ctx, pokemons, "name", input)
-    if (!dbEntry) {
-
+    if (dbEntry == undefined) {
       log("pokemon not found in db, fetching it from the web");
       const fetched = await axios({
         method: "get",
