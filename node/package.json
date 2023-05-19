@@ -4,6 +4,8 @@
   "description": "",
   "type": "commonjs",
   "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/app.js",
     "turbo": "turbowatch ./turbowatch.ts",
     "test": "jest"
   },

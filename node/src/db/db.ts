@@ -6,7 +6,7 @@ const pool = new Pool({
   port: 5432,
   user: "postgres",
   password: "postgres",
-  database: "pokemon-api",
+  database: "pokemon_api",
 });
 
 export const db: ReturnType<typeof drizzle> = drizzle(pool);
