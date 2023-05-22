@@ -22,6 +22,11 @@ describe("E2E test for the Pokemoons trpc route", () => {
   it("makes a successful request to pokemons endpoint", async () => {
     const res = await caller.pokemons.findOne("pikachu");
 
-    expect(res).toBe({ name: "pikachu", type: ["electric"], weight: 60 });
+    expect(res).toEqual({
+      id: 1,
+      name: "pikachu",
+      types: ["electric"],
+      weight: 60,
+    });
   });
 });
