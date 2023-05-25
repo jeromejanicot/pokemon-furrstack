@@ -1,12 +1,12 @@
 import { describe, beforeAll, afterAll, it, expect } from "@jest/globals";
 import { appRouter } from "../../../src/router";
-import { TestContext, createContextInner } from "../../../src/router/context";
+import { Context, createContextInner } from "../../../src/router/context";
 import { createServer } from "../../../src/createServer";
 
 /* type CallerType<T> = T extends (ctx: Context) => infer R ? R : never; */
 /* type appRouterCaller = CallerType<typeof appRouter.createCaller>; */
 
-let ctx: TestContext;
+let ctx: Context;
 let caller: ReturnType<typeof appRouter.createCaller>;
 describe("E2E test for the Pokemoons trpc route", () => {
   beforeAll(async () => {

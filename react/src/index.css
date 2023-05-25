@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -12,6 +16,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --max-width-config: 1024px;
 }
 
 a {
@@ -24,11 +30,8 @@ a:hover {
 }
 
 body {
+  padding: 0;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
@@ -66,4 +69,39 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.max_width {
+  max-width: var(--max-width-config);
+}
+.page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* NAV */
+.nav_container {
+  height: 100px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+}
+
+.nav_item_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: red;
+}
+
+/* Details */
+.details_container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
 }

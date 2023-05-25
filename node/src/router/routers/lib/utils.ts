@@ -1,10 +1,10 @@
-import { Context, TestContext } from "../../context";
+import { Context } from "../../context";
 import { TableConfig, PgTableWithColumns } from "drizzle-orm/pg-core";
 import { InferModel, eq } from "drizzle-orm";
 
 // todo: generic type that match the type of the table schema and its insert schema
 export const saveToDatabase = async <T extends TableConfig>(
-  ctx: Context | TestContext,
+  ctx: Context,
   schema: PgTableWithColumns<T>,
   data: InferModel<typeof schema, "insert">,
 ) => {
@@ -16,7 +16,7 @@ export const findInDatabase = async <
   T extends TableConfig,
   U extends keyof T["columns"],
 >(
-  ctx: Context | TestContext,
+  ctx: Context,
   schema: PgTableWithColumns<T>,
   property: U,
   input: string,

@@ -12,13 +12,10 @@ export async function createContextInner() {
   };
 }
 export async function createContext(opts: CreateFastifyContextOptions) {
-  // auth
-  // db details
   const { req, res } = opts;
   const contextInner = await createContextInner();
 
   return { ...contextInner, req, res };
 }
 
-export type Context = inferAsyncReturnType<typeof createContext>;
-export type TestContext = inferAsyncReturnType<typeof createContextInner>;
+export type Context = inferAsyncReturnType<typeof createContextInner>;

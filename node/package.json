@@ -5,13 +5,14 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc",
-    "start": "node ./dist/app.js",
+    "start": "DEBUG=* node ./dist/app.js",
     "turbo": "turbowatch ./turbowatch.ts",
     "test": "jest"
   },
   "dependencies": {
+    "@fastify/cors": "^8.2.1",
     "@fastify/postgres": "^5.2.0",
-    "@trpc/server": "^10.25.0",
+    "@trpc/server": "^10.27.1",
     "axios": "^1.4.0",
     "cors": "^2.8.5",
     "debug": "^4.3.4",

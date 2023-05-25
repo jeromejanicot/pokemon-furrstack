@@ -2,6 +2,7 @@ import fastify from "fastify";
 import config from "./config";
 import { fastifyPostgres } from "@fastify/postgres";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
+import { fastifyCors } from "@fastify/cors";
 import { appRouter } from "./router";
 import { createContext } from "./router/context";
 //import debug from "debug";
@@ -17,6 +18,21 @@ export const createServer = async () => {
 
   await server.register(fastifyPostgres, {
     connectionString: "postgres://postgres@localhost/postgres",
+  });
+
+  await server.register(fastifyCors, {
+    origin: (origin, cb) => {
+      let hostname;
+      if (origin !== undefined) {
+        hostname = new URL(origin).hostname;
+      }
+      if (hostname == "localhost") {
+        cb(null, true);
+        return;
+      }
+
+      cb(new Error("not allowed"), false);
+    },
   });
 
   await server.register(fastifyTRPCPlugin, {
