@@ -1,6 +1,7 @@
 import { inferAsyncReturnType } from "@trpc/server";
 import { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
 import { db } from "../db/db";
+import Trie from "../trie";
 
 export interface User {
   name: string | string[];
@@ -9,6 +10,7 @@ export interface User {
 export async function createContextInner() {
   return {
     db,
+    Trie,
   };
 }
 export async function createContext(opts: CreateFastifyContextOptions) {
