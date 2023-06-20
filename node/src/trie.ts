@@ -10,7 +10,7 @@ class Trie {
     this.root = { character: "", word: false, children: [] };
   }
 
-  createNode(char: string) {
+  createNode(char: string): Node {
     return { character: char, word: false, children: [] };
   }
 
@@ -19,11 +19,11 @@ class Trie {
 
     for (let i = 0; i < key.length; i++) {
       const index = key.charCodeAt(i) - 97;
-      if (curr.children != undefined && curr.children[index]) {
-        curr = curr.children[index] as Node;
-        continue;
+      console.log(`charCodeAt: ${key.charCodeAt(i)}`);
+      console.log(`i - 97: ${index}`);
+      if (!curr.children[index]) {
+        curr.children[index] = this.createNode(key.charAt(i));
       }
-      curr.children[index] = this.createNode(key.charAt(i));
       curr = curr.children[index] as Node;
     }
     curr.word = true;
@@ -42,7 +42,7 @@ class Trie {
       prefix += key.charAt(i);
       curr = curr.children[index] as Node;
     }
-    this.suggestRec(curr, rec, prefix);
+    this.suggestRec(curr, rec, prefix.substring(0, prefix.length - 1));
     return rec;
   }
 
@@ -51,12 +51,12 @@ class Trie {
       rec.push(prefix + node.character);
     }
 
-    for (let i = 0; i < node.children.length; i++) {
-      if (node.children[i]) {
-        node = node.children[i] as Node;
-        this.suggestRec(node, rec, prefix + node.character);
-      }
-    }
+    for (const child in node.children)
+      this.suggestRec(
+        node.children[child] as Node,
+        rec,
+        prefix + node.character,
+      );
   }
 }
 
