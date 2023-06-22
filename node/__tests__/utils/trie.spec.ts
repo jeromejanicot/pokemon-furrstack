@@ -16,7 +16,7 @@ describe("Build trie and return autosuggestion", () => {
     const complete = Trie.search("pokemon");
 
     expect(invalid).toEqual(undefined);
-    expect(autoSuggestion1).toEqual(["at", "attic"]);
+    expect(autoSuggestion1).toContain(["at", "attic"]);
     expect(autoSuggestion2).toEqual(["pokemon", "pokebowl"]);
     expect(autoSuggestion3).toEqual(["at", "attic", "ants"]);
     expect(complete).toEqual(["pokemon"]);

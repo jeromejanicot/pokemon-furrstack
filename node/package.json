@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^8.2.1",
+    "@fastify/mongodb": "^7.0.0",
     "@fastify/postgres": "^5.2.0",
     "@trpc/server": "^10.27.1",
     "axios": "^1.4.0",
