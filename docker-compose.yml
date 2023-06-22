@@ -9,11 +9,28 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
-      - db:/var/lib/postgresql/data
-      - ./db/init/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+      - sql:/var/lib/postgresql/data
+      - ./sql/init/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
     ports:
       - 5432:5432
+  mongo:
+    image: mongo
+    container_name: mongo-pokemon
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGO_DB}
+      - MONGO_INITDB_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_PASSWORD=${MONGO_PASSWORD}
+    volumes:
+      - mongo:/data/db
+      - ./mongo/init/init-user-db.js:/docker-entrypoint-initdb.d/init-user-db.js
+    ports:
+      - 27017:27017
 
 volumes:
-  db:
+  sql:
+    driver: local
+  mongo:
     driver: local
