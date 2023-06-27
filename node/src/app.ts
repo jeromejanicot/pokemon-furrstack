@@ -19,42 +19,45 @@ type PokemonResult = {
   }[];
 };
 
-type PokemonMongo = {
-  _id: string;
-  name: string;
-};
-
 export const run = async () => {
   try {
     const { server } = await createServer();
 
     const pokemon = server.mongo.db?.collection("pokemon_list");
     let Pokemons: PokemonsList[] = [];
-    if (pokemon && (await pokemon.estimatedDocumentCount()) == 0) {
+    const count = await axios({
+      method: "get",
+      url: "https://pokeapi.co/api/v2/pokemon/",
+    }).then((res) => res.data.count);
+    log("count from api");
+    log(count);
+    const exist = await pokemon?.estimatedDocumentCount();
+    if (pokemon && exist == 0) {
       const offset = 20;
-      const count = await axios({
-        method: "get",
-        url: "https://pokeapi.co/api/v2/pokemon/",
-      }).then((res) => res.data.count);
       for (let i = 0; i < count; i += 20) {
         const res: PokemonResult = await axios({
           method: "get",
           url: `https://pokeapi.co/api/v2/pokemon?offset=${i}&limit=${offset}`,
         }).then((res) => res.data);
+        log(`res from fetch with i=${i}`);
+        log(res);
         res.results.map((data) => Pokemons.push({ name: data.name }));
-        if (Pokemons) {
-          await pokemon.insertMany(Pokemons);
-        }
+        log("what Pokemons looks like");
+        log(Pokemons);
       }
-    } else if (pokemon && (await pokemon.estimatedDocumentCount()) > 1) {
-      Pokemons = (await pokemon
-        .find({})
-        .project({ name: 1, _id: 0 })
-        .toArray()) as PokemonsList[];
+      if (Pokemons) {
+        await pokemon.insertMany(Pokemons);
+      }
     }
+    Pokemons = (await pokemon!
+      .find({})
+      .project({ name: 1, _id: 0 })
+      .toArray()) as PokemonsList[];
+    log("Pokemon after fetch from db");
+    log(Pokemons);
 
     for (let i = 0; i < Pokemons.length; i++) {
-      Trie.insert(Pokemons[i]!.name);
+      Trie.insert(Pokemons[i]!.name as string);
     }
 
     log("starting app");

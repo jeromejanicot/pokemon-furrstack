@@ -16,11 +16,14 @@ export const createServer = async () => {
 
   const conf = server.config;
   const prefix = conf && conf.PREFIX !== undefined ? conf.PREFIX : "trpc";
+  /* const user = conf.MONGO_INITDB_USERNAME; */
+  /* const userPwd = conf.MONGO_INITDB_PASSWORD; */
+  /* const mongoDatabase = conf.MONGO_INITDB_DATABASE; */
 
   log("mongo");
   await server.register(fastifyMongodb, {
     forceClose: true,
-    url: "mongodb://mongo/pokemon",
+    url: `mongodb://user:password@localhost:27017/pokemon`,
   });
 
   log("postgres");

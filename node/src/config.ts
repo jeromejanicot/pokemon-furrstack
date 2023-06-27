@@ -20,6 +20,9 @@ const ConfigSchema = z.object({
   API_HOST: z.string().optional(),
   API_PORT: z.string().optional(),
   PREFIX: z.string().optional(),
+  MONGO_INITDB_USERNAME: z.string(),
+  MONGO_INITDB_PASSWORD: z.string(),
+  MONGO_INITDB_DATABASE: z.string(),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;

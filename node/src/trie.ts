@@ -1,11 +1,11 @@
-interface Node {
+export interface Node {
   character: string;
   word: boolean;
   children: Node[] | undefined[];
 }
 
 class Trie {
-  private root: Node;
+  public root: Node;
   constructor() {
     this.root = { character: "", word: false, children: [] };
   }
