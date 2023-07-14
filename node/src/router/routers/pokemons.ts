@@ -20,7 +20,7 @@ interface NewPokemonCore {
 }
 
 export const pokemonsRouter = router({
-  //zod transform input to lowercase
+  // zod transform input to lowercase
   // how do I get inference of pokemons proper type?
   findOne: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     const dbEntry = await findInDatabase(ctx, pokemons, "name", input);

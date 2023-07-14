@@ -98,6 +98,30 @@ button:focus-visible {
   background-color: red;
 }
 
+.nav_item_container input {
+  border-radius: 5pt;
+  padding-left: 5px;
+  background-color: white;
+  color: black;
+}
+
+.rec_container {
+  position: relative;
+}
+
+.recs {
+  position: absolute;
+  background-color: black;
+  top: 0;
+  max-height: 100px;
+  max-width: inherit;
+  overflow: scroll;
+}
+
+.rec_item {
+  cursor: pointer;
+}
+
 /* Details */
 .details_container {
   width: 100%;

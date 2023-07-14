@@ -1,12 +1,12 @@
 import { Context } from "../../context";
 import { TableConfig, PgTableWithColumns } from "drizzle-orm/pg-core";
-import { InferModel, eq } from "drizzle-orm";
+import { InferModel, Simplify, eq } from "drizzle-orm";
 
 // todo: generic type that match the type of the table schema and its insert schema
 export const saveToDatabase = async <T extends TableConfig>(
   ctx: Context,
   schema: PgTableWithColumns<T>,
-  data: (typeof schema)["_"]["columns"],
+  data: Simplify<InferModel<typeof schema, "insert">>,
 ) => {
   await ctx.db.insert(schema).values(data).returning();
 };

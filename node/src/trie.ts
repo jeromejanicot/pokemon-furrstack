@@ -10,22 +10,22 @@ export interface TrieType {
 }
 
 class Trie {
-  private root: Node;
+  public root: Node;
   constructor() {
     this.root = { character: "", word: false, children: [] };
-  }
-
-  private createNode(char: string): Node {
-    return { character: char, word: false, children: [] };
   }
 
   public insert(key: string) {
     let curr = this.root;
 
+    function createNode(char: string): Node {
+      return { character: char, word: false, children: [] };
+    }
+
     for (let i = 0; i < key.length; i++) {
       const index = key.charCodeAt(i) - 97;
       if (!curr.children[index]) {
-        curr.children[index] = this.createNode(key.charAt(i));
+        curr.children[index] = createNode(key.charAt(i));
       }
       curr = curr.children[index] as Node;
     }
@@ -37,6 +37,14 @@ class Trie {
     const rec: string[] = [];
     let prefix = "";
 
+    function suggestRec(node: Node, rec: string[], prefix: string) {
+      if (node.word) {
+        rec.push(prefix + node.character);
+      }
+
+      for (const child in node.children)
+        suggestRec(node.children[child] as Node, rec, prefix + node.character);
+    }
     for (let i = 0; i < key.length; i++) {
       const index = key.charCodeAt(i) - 97;
       if (!curr.children[index]) {
@@ -45,21 +53,8 @@ class Trie {
       prefix += key.charAt(i);
       curr = curr.children[index] as Node;
     }
-    this.suggestRec(curr, rec, prefix.substring(0, prefix.length - 1));
+    suggestRec(curr, rec, prefix.substring(0, prefix.length - 1));
     return rec;
-  }
-
-  private suggestRec(node: Node, rec: string[], prefix: string) {
-    if (node.word) {
-      rec.push(prefix + node.character);
-    }
-
-    for (const child in node.children)
-      this.suggestRec(
-        node.children[child] as Node,
-        rec,
-        prefix + node.character,
-      );
   }
 }
 
