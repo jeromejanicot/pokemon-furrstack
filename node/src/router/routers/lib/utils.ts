@@ -6,7 +6,7 @@ import { InferModel, eq } from "drizzle-orm";
 export const saveToDatabase = async <T extends TableConfig>(
   ctx: Context,
   schema: PgTableWithColumns<T>,
-  data: InferModel<typeof schema, "insert">,
+  data: (typeof schema)["_"]["columns"],
 ) => {
   await ctx.db.insert(schema).values(data).returning();
 };

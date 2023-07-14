@@ -4,23 +4,26 @@ export interface Node {
   children: Node[] | undefined[];
 }
 
+export interface TrieType {
+  insert: (key: string) => void;
+  search: (key: string) => string[] | undefined;
+}
+
 class Trie {
-  public root: Node;
+  private root: Node;
   constructor() {
     this.root = { character: "", word: false, children: [] };
   }
 
-  createNode(char: string): Node {
+  private createNode(char: string): Node {
     return { character: char, word: false, children: [] };
   }
 
-  insert(key: string) {
+  public insert(key: string) {
     let curr = this.root;
 
     for (let i = 0; i < key.length; i++) {
       const index = key.charCodeAt(i) - 97;
-      console.log(`charCodeAt: ${key.charCodeAt(i)}`);
-      console.log(`i - 97: ${index}`);
       if (!curr.children[index]) {
         curr.children[index] = this.createNode(key.charAt(i));
       }
@@ -29,7 +32,7 @@ class Trie {
     curr.word = true;
   }
 
-  search(key: string) {
+  public search(key: string) {
     let curr = this.root;
     const rec: string[] = [];
     let prefix = "";
@@ -46,7 +49,7 @@ class Trie {
     return rec;
   }
 
-  suggestRec(node: Node, rec: string[], prefix: string) {
+  private suggestRec(node: Node, rec: string[], prefix: string) {
     if (node.word) {
       rec.push(prefix + node.character);
     }

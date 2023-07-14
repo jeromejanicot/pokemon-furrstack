@@ -7,8 +7,6 @@ describe("Build trie and return autosuggestion", () => {
 
     inputString.map((string) => Trie.insert(string));
 
-    console.log(Trie);
-
     const invalid = Trie.search("bomb");
     const autoSuggestion1 = Trie.search("at");
     const autoSuggestion2 = Trie.search("po");
@@ -16,9 +14,9 @@ describe("Build trie and return autosuggestion", () => {
     const complete = Trie.search("pokemon");
 
     expect(invalid).toEqual(undefined);
-    expect(autoSuggestion1).toContain(["at", "attic"]);
-    expect(autoSuggestion2).toEqual(["pokemon", "pokebowl"]);
-    expect(autoSuggestion3).toEqual(["at", "attic", "ants"]);
-    expect(complete).toEqual(["pokemon"]);
+    expect(autoSuggestion1?.sort()).toEqual(["at", "attic"].sort());
+    expect(autoSuggestion2?.sort()).toEqual(["pokemon", "pokebowl"].sort());
+    expect(autoSuggestion3?.sort()).toEqual(["at", "attic", "ants"].sort());
+    expect(complete?.sort()).toEqual(["pokemon"].sort());
   });
 });

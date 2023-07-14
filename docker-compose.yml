@@ -23,6 +23,8 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
       MONGO_USERNAME: ${MONGO_USERNAME}
       MONGO_PASSWORD: ${MONGO_PASSWORD}
+      ROOT_MONGO_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo/${MONGO_INITDB_DATABASE}?authSource=admin"
+      USER_MONGO_URI: "mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo/${MONGO_INITDB_DATABASE}?authSource=admin"
     volumes:
       - mongo:/data/db
       - mongo_cfg:/data/configdb
